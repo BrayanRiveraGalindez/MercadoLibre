@@ -68,7 +68,7 @@ export default {
 				cantidad: 1
 			}
 
-			const carrito = JSON.parse(localStorage.getItem('carrito')) || []
+			const carrito = JSON.parse(localStorage.getItem(this.userId)) || []
 			const existingProductIndex = carrito.findIndex(item => item.id === producto.id)
 			if (existingProductIndex !== -1) {
 				// Si el producto ya existe en el carrito, aumenta su cantidad en 1
