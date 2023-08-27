@@ -33,7 +33,16 @@
 
   <script>
 export default {
-	props: ['product','isAuthenticated'],
+	props: ['product','auth_user'],
+	data(){
+		return{
+			userId:null
+		}
+	},
+    mounted() {
+		this.index()
+        console.log(this.auth_user); // Verifica si se recibe el usuario autenticado correctamente
+    },
 	computed: {
 		productImage() {
 			if (this.product.file) {
@@ -43,12 +52,11 @@ export default {
 		}
 	},
 	methods: {
+		index(){
+			this.userId = this.auth_user.id
+			console.log(this.userId)
+		},
 		agregarAlCarrito() {
-			if (!this.isAuthenticated) {
-                // Redirigir a la página de inicio de sesión
-                this.$router.push({ name: 'login' });
-                return;
-            }
 			const producto = {
 				id: this.product.id,
 				nombre: this.product.name,
@@ -69,8 +77,8 @@ export default {
 				// Si el producto no existe en el carrito, lo agrega
 				carrito.push(producto)
 			}
-
-			localStorage.setItem('carrito', JSON.stringify(carrito))
+			// console.log(this.auth_user)
+			localStorage.setItem(this.userId, JSON.stringify(carrito))
 
 			const response = Swal.fire({
 				icon: 'success',

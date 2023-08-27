@@ -36,9 +36,19 @@
 
   <script>
 export default {
+	props: ['auth_user'], //Esta linea de codigo me la dio David
+	data(){
+		return{
+			userId:null
+		}
+	},
+    mounted() {
+		this.index()
+        console.log(this.auth_user); // Verifica si se recibe el usuario autenticado correctamente
+    },
 	computed: {
 		cartProducts() {
-			return JSON.parse(localStorage.getItem('carrito')) || []
+			return JSON.parse(localStorage.getItem(this.userId)) || []
 		},
 
 		calcularTotal() {
@@ -50,6 +60,10 @@ export default {
 	},
 
 	methods: {
+		index(){
+			this.userId = this.auth_user.id
+			console.log(this.userId)
+		},
 		confirmarVaciarCarrito() {
 			Swal.fire({
 				title: '¿Estás seguro?',
@@ -81,7 +95,7 @@ export default {
 			})
 		},
 		eliminarDelCarrito(index) {
-			const carrito = JSON.parse(localStorage.getItem('carrito')) || []
+			const carrito = JSON.parse(localStorage.getItem(this.userId)) || []
 			const product = carrito[index]
 
 			if (product.cantidad > 1) {
@@ -90,20 +104,21 @@ export default {
 				carrito.splice(index, 1)
 			}
 
-			localStorage.setItem('carrito', JSON.stringify(carrito))
+			localStorage.setItem(this.userId, JSON.stringify(carrito))
 			window.location.reload()
 		},
 
 		actualizarCantidad(index, nuevaCantidad) {
-			const carrito = JSON.parse(localStorage.getItem('carrito')) || []
+			console.log(this.userId);
+			const carrito = JSON.parse(localStorage.getItem(this.userId)) || []
 			const product = carrito[index]
 			product.cantidad = nuevaCantidad
 
-			localStorage.setItem('carrito', JSON.stringify(carrito))
+			localStorage.setItem(this.userId, JSON.stringify(carrito))
 			window.location.reload()
 		},
 		vaciarCarrito() {
-			localStorage.removeItem('carrito')
+			localStorage.removeItem(this.userId)
 			window.location.reload()
 		}
 	}

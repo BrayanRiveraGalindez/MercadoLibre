@@ -58,13 +58,14 @@ class User extends Authenticatable
 	}
 
 
-	public function customerLends()
-	{
-		return $this->hasMany(Lend::class, 'customer_user_id', 'id');
-	}
 
-	public function ownerLends()
-	{
-		return $this->hasMany(Lend::class, 'owner_user_id', 'id');
-	}
+	// public function customerLends()
+	// {
+	// 	return $this->hasMany(Lend::class, 'customer_user_id', 'id');
+	// }
+
+	// public function ownerLends()
+	// {
+	// 	return $this->hasMany(Lend::class, 'owner_user_id', 'id');
+	// }
 }
